@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  WebHookFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: ./handler.test
+      Runtime: nodejs12.x
+      Environment: 
+        Variables:
+          TableName: !Ref WebHookTable
+          StreamArn: 'arn:aws:sns:us-east-1:127960264419:ReCeeve_Webhook'
+      Events:
+        MailPostAPI:
+          Type: Api
+          Properties:
+            Path: /delivered
+            Method: ANY       
+        
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - 'dynamodb:DeleteItem'
+                - 'dynamodb:GetItem'
+                - 'dynamodb:PutItem'
+                - 'dynamodb:UpdateItem'
+                - 'sns:*'
+              Resource: '*'
+                
+  WebHookTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: WebHookTable
+      AttributeDefinitions:
+        - AttributeName: messageId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: messageId
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5  

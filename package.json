@@ -1,0 +1,16 @@
+{
+	"name": "hello-world-lambda",
+	"scripts": {
+		"build": "tsc dist/hello.ts",
+		"deploy": "npm run build && sls deploy"
+	},
+	"dependencies": {
+		"@types/aws-lambda": "^8.10.46",
+		"@types/node": "^13.7.7",
+		"aws-sdk": "^2.633.0",
+		"inversify": "^5.0.1",
+		"reflect-metadata": "^0.1.13",
+		"tsconfig": "^7.0.0",
+		"typescript": "^3.8.3"
+	}
+}

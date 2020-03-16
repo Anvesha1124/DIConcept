@@ -1,0 +1,14 @@
+"use strict";
+exports.__esModule = true;
+var inversify_1 = require("inversify");
+var types_1 = require("./types");
+var DDBInsert_1 = require("./services/DDBInsert");
+var container = new inversify_1.Container();
+container.bind(types_1["default"].Warrior).to(DDBInsert_1.Ninja);
+container.bind(types_1["default"].Warrior1).to(DDBInsert_1.Katana1);
+container.bind(types_1["default"].Warrior2).to(DDBInsert_1.SnsMail);
+container.bind(types_1["default"].MailerConfig).toConstantValue("20130503182626.18666.16540@sandbox6a91aaa2a5574971802c209911fad500.mailgun.org").whenTargetNamed("msgId");
+container.bind(types_1["default"].MailerConfig).toConstantValue("WebHookTable").whenTargetNamed("tableName");
+container.bind(types_1["default"].MailerConfig).toConstantValue("delivered").whenTargetNamed("eventStatus");
+container.bind(types_1["default"].MailerConfig).toConstantValue("arn:aws:sns:us-east-1:127960264419:ReCeeve_Webhook").whenTargetNamed("SnsArn");
+exports["default"] = container;
